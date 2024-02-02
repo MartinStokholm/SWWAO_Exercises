@@ -1,8 +1,8 @@
 import Order from "../models/orders";
 
 const OrderService = {
-  getAll: async () => {
-    return await Order.find();
+  getAll: async (filter = {}) => {
+    return await Order.find(filter, { __v: 0 }).lean();
   },
 
   getById: async (uid: string) => {

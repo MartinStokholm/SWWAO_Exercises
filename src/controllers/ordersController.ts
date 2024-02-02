@@ -21,7 +21,27 @@ router.post("/seed", async (_, res) => {
 // GET /orders
 router.get("/", async (req, res) => {
   try {
-    const orders = await OrderService.getAll();
+    let { f, t, m } = req.query;
+
+    let filter: { timestamp?: { $gt?: Date; $lt?: Date }; material?: any } = {};
+
+    if (f) {
+      filter = { ...filter, timestamp: { $gt: new Date(Number(f)) } };
+    }
+
+    if (t) {
+      filter = {
+        ...filter,
+        timestamp: { ...filter.timestamp, $lt: new Date(Number(t)) },
+      };
+    }
+
+    if (m) {
+      filter = { ...filter, material: m };
+    }
+
+    const orders = await OrderService.getAll(filter);
+
     if (orders.length > 0) {
       res.status(200).json(orders);
     } else {
