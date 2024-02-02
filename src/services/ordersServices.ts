@@ -1,6 +1,6 @@
 import Order from "../models/orders";
 
-const orderService = {
+const OrderService = {
   getAll: async () => {
     return await Order.find();
   },
@@ -20,6 +20,10 @@ const orderService = {
   delete: async (uid: number) => {
     return await Order.deleteOne({ _id: uid });
   },
+
+  insertMany: async (orders: (typeof Order)[]) => {
+    return await Order.insertMany(orders);
+  },
 };
 
-export default orderService;
+export default OrderService;

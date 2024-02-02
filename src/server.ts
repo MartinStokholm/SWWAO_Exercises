@@ -1,4 +1,4 @@
 import app from "./app";
-
-console.log("Server running on port 3333");
-app.listen(3333);
+const { PORT } = process.env;
+console.log("Server running on port: " + PORT);
+app.listen(PORT);
