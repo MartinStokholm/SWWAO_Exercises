@@ -1,4 +1,5 @@
 import SeedOrders from "../services/seedingService";
+import OrderService from "../services/ordersServices";
 import express from "express";
 
 const router = express.Router();
@@ -20,11 +21,12 @@ router.post("/seed", async (_, res) => {
 // GET /orders
 router.get("/", async (req, res) => {
   try {
-    // Fetch orders from your database here
-    // const orders = await Orders.find();
-    // Send the orders as a response
-    // res.json(orders);
-    res.status(200).json({ message: "TODO Implement GET /orders" });
+    const orders = await OrderService.getAll();
+    if (orders.length > 0) {
+      res.status(200).json(orders);
+    } else {
+      res.status(200).json({ message: "No orders found" });
+    }
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -33,12 +35,8 @@ router.get("/", async (req, res) => {
 // POST /orders
 router.post("/", async (req, res) => {
   try {
-    // Create a new order
-    // const order = new Orders(req.body);
-    // await order.save();
-    // Send the order as a response
-    // res.status(201).json(order);
-    res.status(200).json({ message: "TODO Implement POST /orders" });
+    const newOrder = await OrderService.create(req.body);
+    res.status(201).json(newOrder);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -47,11 +45,12 @@ router.post("/", async (req, res) => {
 // GET /orders/:uid
 router.get("/:uid", async (req, res) => {
   try {
-    // Fetch order from your database here
-    // const order = await Orders.findById(req.params.uid);
-    // Send the order as a response
-    // res.json(order);
-    res.status(200).json({ message: "TODO Implement GET /orders/uid" });
+    const order = await OrderService.getById(req.params.uid);
+    if (order) {
+      res.status(200).json(order);
+    } else {
+      res.status(404).json({ message: "Order not found" });
+    }
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -60,13 +59,8 @@ router.get("/:uid", async (req, res) => {
 // PUT /orders/:uid
 router.put("/:uid", async (req, res) => {
   try {
-    // Update the order
-    // const order = await Orders.findById(req.params.uid);
-    // order.set(req.body);
-    // await order.save();
-    // Send the order as a response
-    // res.json(order);
-    res.status(200).json({ message: "TODO Implement PUT /orders/uid" });
+    const order = await OrderService.update(req.params.uid, req.body);
+    res.status(200).json(order);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -75,13 +69,8 @@ router.put("/:uid", async (req, res) => {
 // PATCH /orders/:uid
 router.patch("/:uid", async (req, res) => {
   try {
-    // Update the order
-    // const order = await Orders.findById(req.params.uid);
-    // order.set(req.body);
-    // await order.save();
-    // Send the order as a response
-    // res.json(order);
-    res.status(200).json({ message: "TODO Implement " });
+    const order = await OrderService.update(req.params.uid, req.body);
+    res.status(200).json(order);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -90,11 +79,8 @@ router.patch("/:uid", async (req, res) => {
 // DELETE /orders/:uid
 router.delete("/:uid", async (req, res) => {
   try {
-    // Delete the order
-    // await Orders.deleteOne({ _id: req.params.uid });
-    // Send a generic response
-    // res.json({ message: "Order deleted" });
-    res.status(200).json({ message: "TODO Implement" });
+    const order = await OrderService.delete(req.params.uid);
+    res.status(200).json(order);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

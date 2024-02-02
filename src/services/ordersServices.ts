@@ -5,7 +5,7 @@ const OrderService = {
     return await Order.find();
   },
 
-  getById: async (uid: number) => {
+  getById: async (uid: string) => {
     return await Order.findById(uid);
   },
 
@@ -13,11 +13,11 @@ const OrderService = {
     return await Order.create(order);
   },
 
-  update: async (uid: number, order: typeof Order) => {
+  update: async (uid: string, order: typeof Order) => {
     return await Order.findByIdAndUpdate(uid, order, { new: true });
   },
 
-  delete: async (uid: number) => {
+  delete: async (uid: string) => {
     return await Order.deleteOne({ _id: uid });
   },
 

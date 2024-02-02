@@ -1,4 +1,3 @@
-import Order from "../models/orders";
 import OrderService from "./ordersServices";
 import { readFile } from "fs/promises";
 
